@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" />
+  </head>
+
+  <style>
+    @font-face {
+      font-family: 'Rum Raisin';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("font.woff2") format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+  </style>
+
+<style>    
+  body {
+    font-family: "Rum Raisin", sans-serif;
+    color: #EB7D46;
+    text-shadow: -1.5px -1.5px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    font-size:30px;
+  }
+  .mainLogo {
+    font-family: "Rum Raisin", sans-serif;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #EB7D46;
+    text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000;
+    font-size: 64px;
+  }
+  input[type=text], select {
+    width: 45%;
+    text-align: center;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  input[type=number], select {
+    width: 30%;
+    height: 35px;
+    text-align: center;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  .textField {
+    padding: 5px 5px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+
+    width: 95%; 
+    height: 190px; 
+    resize:vertical; 
+    font-family:initial; 
+    white-space: pre-line; 
+    margin-top: 2px;
+  }
+  input[type=submit] {
+    width: 105px;
+    height: 43.5px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  input[type=submit]:hover {
+    background-color: #45a049;
+  }
+  .input {
+    font-size: 20px;
+    background-position: center;
+    text-align: center;
+    border-radius: 5px;
+    padding: 20px;
+    min-height: 315px;
+  }
+  input:placeholder-shown {
+    font-style: italic;
+  }
+  .maxAvg {
+    float:left;
+    width: 250px;
+    text-align: center;
+    border-radius: 5px;
+    background-color: #FAFAFA;
+  }
+  .speedLog {
+    float:left;
+    width: 250px;
+    text-align: center;
+    background: #FAFAFA;
+    border-radius: 5px;
+    margin-left: 10px;
+  }
+  .logText {
+    text-align: center;
+    font-size: 16px;
+  }
+  .inputLog {
+    font-size: 20px;
+    background-position: center;
+    text-align: center;
+    border-radius: 5px;
+    padding: 20px;
+    min-height: 315px;
+  }
+
+  .settings {
+    float:left;
+    width: 250px;
+    background: #FAFAFA;
+    border-radius: 5px;
+    margin-left: 10px;
+    min-height: 315px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .audio {
+    float:left;
+    width: 250px;
+    background: #FAFAFA;
+    border-radius: 5px;
+    margin-left: 10px;
+    min-height: 200px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .maxMinAvgVeloMobile {
+    display: none;
+    visibility: none;
+    float:left;
+    width: 250px;
+    background: #FAFAFA;
+    border-radius: 5px;
+    margin-left: 10px;
+    min-height: 200px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .maxMinAvgVeloMobile h1 {
+    margin-bottom:  -40px;
+    font-size: 32px; 
+    margin-top: 0px; 
+  }
+  .maxMinAvgVelo {
+    float:left;
+    width: 250px;
+    background: #FAFAFA;
+    border-radius: 5px;
+    margin-left: 10px;
+    min-height: 200px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-top: 86px;
+  }
+
+  input[type=list] {
+    width: 45%;
+    text-align: center;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  .contact {
+    display:flex;
+    align-items:flex-start;
+    text-align:center;
+    -webkit-justify-content: center;
+    justify-content: center;
+  }
+  .contact3 {
+    display:flex;
+    flex-wrap: wrap;
+    align-items:flex-start;
+    text-align:center;
+    -webkit-justify-content: center;
+    justify-content: center;
+  }
+  
+  @media (max-width: 1271px) { /*Values top */
+    .maxMinAvgVelo {
+      margin-top: 5px;
+    }
+
+  }
+
+  @media (max-width: 570px) {
+    .contact {
+      flex-wrap: wrap;
+    }
+    .speedLog {
+      margin-left: 0px;
+      margin-top: 5px;
+    }
+    .textField {
+      height: 350px;
+    }
+    .settings {
+      margin-left: 0px;
+      margin-top: 5px;
+    }
+    .audio {
+      margin-left: 0px;
+      margin-top: 5px;
+    }
+    .contact3 {
+      visibility: none;
+      display: none;
+    }
+    .maxMinAvgVeloMobile {
+      display: inherit;
+      visibility: visible;
+
+      margin-left: 0px;
+      margin-top: 5px;
+    }
+  }
+
+  .slider.round {
+    border-radius: 10px;
+  }
+  .switch {
+    position: relative;
+    padding-right: 15px; 
+    width: 40px;
+    height: 30px;
+  }
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-style: solid;
+    border-color: black;
+    border-width: 2.5px;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  input:checked + .slider {
+    background-color: white;
+    border-style: solid;
+    border-color: #4CAF50;
+  }
+  .unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  } 
+  .settingsLables {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 25px;
+    padding-top: 1%;
+  }
+</style>
+
+<script>
+  console.log("KingsUnity")
+  console.log("Radar to Sound\nVer: 3")
+
+  function credits() {
+    alert("Credits: KingsUnity\n\nProduct: Data Chord\nVer: 3.0\n\nThank you for choosing KingsUnity!")
+  }
+</script>
+
+  <title>KingsUnity</title>
+  <link rel="icon" type="image/png" href="http://192.168.1.1:100/faction.png">
+
+  <body>
+    <h1 onclick="credits()" class="mainLogo" style="cursor: default;">KingsUnity</h1>
+    <div class ="contact">
+      <div class="maxAvg">
+        <div class="input">
+          <form>
+            <h1 style="font-size: 32px; margin-top: 0px; margin-bottom: -32px;">Max Speed</h1>
+            <br>
+            <input type="text" id="max" name="M" placeholder="000.0" required autocomplete="off" value="%MaxSpeed%">
+            <br>
+            <h1 style="font-size: 32px; margin-bottom: -32px;">Average Speed</h1>
+            <br>
+            <input type="text" id="avg" name="A" placeholder="000.0" required autocomplete="off" value="%AvgSpeed%">
+            <br>
+            <input type="submit" value="Update" style="margin-top: 65px; margin-bottom: 0px;">
+          </form>
+        </div>
+      </div>
+
+      <div class="speedLog">
+        <div class="inputLog">
+          <h1 style="font-size: 32px; margin-top: 0px; margin-bottom: 3px;">Logs</h1>
+          <textarea id="log" name="log" rows="4" readonly  class="textField">%Logs%</textarea>
+
+          <script>
+            function clearConfirm() {
+              var r = confirm("Are you sure you want to clear logs?");
+              if (r == true) {
+                document.getElementById("clearLogs").submit();
+              }
+            }
+          </script>
+
+          <input type="submit" value="Clear" onclick="clearConfirm()" style="margin-top: 28px; margin-bottom: 0px;">
+          <form id="clearLogs">
+            <input type="text" id="clear" name="C" value="1" style=" display: none;">
+          </form>
+        </div>
+      </div>
+
+      <div class="settings">
+        <h1 style="font-size: 32px; margin-top: 0px; margin-bottom: 3px;">Settings</h1>
+        
+        <script>
+          function settingsUpdate() {
+            let url = new URL('http://10.0.0.165');
+            let params = new URLSearchParams(url.search);
+
+            params.set('MA', MA.checked);
+            params.set('AA', AA.checked);
+            params.set('BA', BA.checked);
+            params.set('DE', delay.value);
+            params.set('MN', min.value);
+            params.set('TO', timeOut.value)
+            params.set('DN', DN.value)
+            if (!timeOut.checkValidity() || !delay.checkValidity() || !min.checkValidity() || !DN.checkValidity) {
+              console.log(timeOut.checkValidity())
+              alert("all setting information must be filled out before submitting")
+            } else {
+              console.log(params.toString())
+              console.log(window.location.href)
+              document.location.search = params //updates page
+            }
+          }
+
+          function audioUpdate() {
+            let url = new URL('http://10.0.0.165');
+            let params = new URLSearchParams(url.search);
+
+            params.set('MA', MA.checked);
+            params.set('AA', AA.checked);
+            params.set('BA', BA.checked);
+            
+            console.log(params.toString())
+            console.log(window.location.href)
+            document.location.search = params //updates page
+          }
+
+        </script>
+
+        <form style="margin-top: -38px" onsubmit="return false">
+          <br>
+          <label for="DN" style="font-size: 30px;">Device ID</label>
+          <input type="number" id="DN" name="DN" placeholder="0" value="1" required autocomplete="off" style="width: 60px;">
+          <br>
+          <label for="min" style="font-size: 30px;">Minimum</label>
+          <input type="number" id="min" name="min" placeholder="0" value="%minimumSpeed%" required autocomplete="off">
+  
+          <br>
+          <label for="timeOut" style="font-size: 30px;" >Time Out</label>
+          <input type="number" id="timeOut" name="timeOut" placeholder="0" value="%timeOut%" required autocomplete="off">
+  
+          <br>
+          <label for="delay" style="font-size: 30px;">Delay</label>
+          <input type="number" id="delay" name="delay" placeholder="0" value="%delayTime%" required autocomplete="off">
+          <br>
+
+          <input type="submit" value="Update" onclick="settingsUpdate()" style="margin-top:25px;margin-bottom: 0px; ">
+        </form>
+
+      </div>
+
+      <div class="audio">
+        <h1 style="font-size: 32px; margin-top: 0px; margin-bottom: 3px;">Audio</h1>
+
+        <label class="switch" style="display: inline-block; padding-top: 10px;">
+          <input  id="MA" name="MA" type="checkbox" style="display: inline-block;" %maxAudio%>
+          <span class="slider round unselectable settingsLables">Max</span>
+        </label>
+
+        <label class="switch" style="display: inline-block; padding-top: 10px;">
+          <input  id="AA" name="AA" type="checkbox" style="display: inline-block;" %avgAudio%>
+          <span class="slider round unselectable settingsLables">Avg</span>
+        </label>
+
+        <label class="switch" style="display: inline-block; padding-top: 10px;">
+          <input id="BA" name="BA" type="checkbox" style="display: inline-block;" %badAudio%>
+          <span class="slider round unselectable settingsLables">Bad</span>
+        </label>
+
+        <h2 style="font-size: 20px; margin-top: 0px; margin-bottom: 3px;">Number Of</h2>
+
+        <form>
+          <label for="MaxAudio" style="font-size: 30px;">Max</label>
+          <input type="number" id="MU" name="MU" placeholder="0" value="%MaxAudioNumber%" required autocomplete="off" readonly>
+
+          <br>
+          <label for="AvgAudio" style="font-size: 30px;">Avg</label>
+          <input type="number" id="AU" name="AU" placeholder="0" value="%AvgAudioNumber%" required autocomplete="off" readonly>
+
+          <br>
+          <label for="BadAudio" style="font-size: 30px;">Bad</label>
+          <input type="number" id="BU" name="BU" placeholder="0" value="%BadAudioNumber%" required autocomplete="off" readonly>
+        </form>
+
+        <input type="submit" value="Update" onclick="audioUpdate()" style="margin-top:10px;margin-bottom: 0px; ">
+
+      </div>
+
+      <div class="maxMinAvgVeloMobile">
+        <form>
+          <h1>Values</h1>
+          <br>
+          <label for="MaxAudio" style="font-size: 30px;">Max</label>
+          <input type="number" id="MaxSpeedChart" name="MU" placeholder="0" readonly>
+          <br>
+          <label for="MaxAudio" style="font-size: 30px;">Avg</label>
+          <input type="number" id="AvgSpeedChart" name="MU" placeholder="0" readonly>
+          <br>
+          <label for="MaxAudio" style="font-size: 30px;">Min</label>
+          <input type="number" id="MinSpeedChart" name="MU" placeholder="0" readonly>
+      </form>
+      
+      </div>
+
+    </div>
+
+    
+    <div class="contact3">
+      <script src="chart.js"></script>
+      <div class="contact3">
+        <h2 style="text-align: center; margin-bottom: -10px; background-color: #FAFAFA; border-radius: 4px; flex-basis: 100%; padding: 0px; max-width: 300px;">Pitches</h2>
+        <canvas id="Chart" style="width:100%;max-width:900px; height: 500px; text-align: center; padding: 10px; background-color: #FAFAFA; border-radius: 4px;"></canvas>
+      </div>
+
+      <script>
+        var canvas = document.getElementById("Chart");
+        var ctx = canvas.getContext('2d');
+        var chartType = 'line';
+        var lineChart;
+        var xValues = [1,2,3,4];
+        var yValues = [60,70,76,75];
+
+        var data = {
+          labels: xValues,
+          datasets: [{
+            fill: false,
+            lineTension: 0,
+            backgroundColor: "#c96b3c",
+            borderColor: "#EB7D46",
+            data: yValues,
+            label: 'Speed'
+          }
+        ]
+        };
+        var options = {
+          legend: {display: false},
+          tooltips: {
+            mode: 'index',
+            intersect: false,
+            displayColors: false
+          },
+          hover: {
+            mode: 'index',
+            intersect: false
+          },
+          responsive: false,
+          maintainAspectRatio: true,
+          showScale: false
+
+        }
+
+        init();
+        function init() {
+          // Chart declaration:
+          lineChart = new Chart(ctx, {
+            type: chartType,
+            data: data,
+            options: options
+          });
+        }
+
+        function addData() {
+          //lineChart.data.labels[lineChart.data.datasets[0].data.length] = lineChart.data.datasets[0].data.length + 1;
+          lineChart.data.labels = xValues;
+          lineChart.data.datasets[0].data = yValues;
+          //lineChart.data.datasets[0].data[lineChart.data.datasets[0].data.length] = newValue;
+          console.log();
+          lineChart.update();
+        }
+
+        function updateLabel() {
+          //lineChart.data.datasets[0].data[1].label = "test";
+        }
+        updateLabel()
+      </script>
+
+      <div class="maxMinAvgVelo" style="margin-left: -30px;">
+        <h1 style="font-size: 32px; margin-top: 0px; margin-bottom: 3px;">Values</h1>
+        <label for="MaxAudio" style="font-size: 30px;">Max</label>
+        <input type="number" id="MaxSpeedChart1" name="MU" placeholder="0" readonly>
+        <br>
+        <label for="MaxAudio" style="font-size: 30px;">Avg</label>
+        <input type="number" id="AvgSpeedChart1" name="MU" placeholder="0" readonly>
+        <br>
+        <label for="MaxAudio" style="font-size: 30px;">Min</label>
+        <input type="number" id="MinSpeedChart1" name="MU" placeholder="0" readonly>
+      </div>
+
+      <script>
+        function getAvg(grades) {
+          total = grades.reduce((acc, c) => acc + c, 0);
+          total = Math.round( (total / grades.length) * 10 ) / 10;
+          return (total);
+        }
+
+        function updateValues() {
+          var data = yValues //change value
+          var maxVal = Math.max.apply(null, data);
+          var minVal = Math.min.apply(null, data);
+          var avgVal = getAvg(data);
+
+          document.getElementById("MaxSpeedChart").value = maxVal;
+          document.getElementById("MinSpeedChart").value = minVal;
+          document.getElementById("AvgSpeedChart").value = avgVal;
+
+          document.getElementById("MaxSpeedChart1").value = maxVal;
+          document.getElementById("MinSpeedChart1").value = minVal;
+          document.getElementById("AvgSpeedChart1").value = avgVal;
+        }
+        updateValues()
+
+        function updateLogs(newLogs) {
+          document.getElementById("log").value = newLogs
+        }
+      </script>
+
+    </div>
+
+
+<style>
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  max-width: 70%;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  filter: brightness(90%);
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  filter: brightness(80%);
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+</style>
+
+<br>
+<br>
+
+
+<center>
+  <div class="tab" id="tab">
+    <button class="tablinks" id="player1!~!" oncontextmenu="event.preventDefault()">Player1</button>
+    <button class="tablinks" id="player2!~!" oncontextmenu="event.preventDefault()">Player2</button>
+    <button class="tablinks" id="player3!~!" oncontextmenu="event.preventDefault()">Player3</button>
+    <button class="tablinks" id="newPlayerID" oncontextmenu="event.preventDefault()" onclick="openPlayer('newPlayer') ">New Player</button>
+  </div>
+</center>
+
+<div id="allPlayers">
+  <div id="player1" class="tabcontent">
+    <h3>London</h3>
+    <p>London is the capital city of England.</p>
+  </div>
+  
+  <div id="player2" class="tabcontent">
+    <h3>Paris</h3>
+    <p>Paris is the capital of France.</p> 
+  </div>
+  
+  <div id="player3" class="tabcontent">
+    <h3>Tokyo</h3>
+    <p>Tokyo is the capital of Japan.</p>
+  </div>
+
+
+<style>
+  .playerBox {
+    width: 70%;
+    min-height: 400px;
+    background-color:#FAFAFA;
+
+    border-radius: 4px;
+    margin-top: 20px;
+  }
+
+  .playerBox h1 {
+    font-size: 45px;
+  }
+
+  .chartEditable {
+          background-color: #FAFAFA;
+          text-shadow: -1.5px -1.5px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+          color: #EB7D46;
+        }
+        thead {
+          background-color: #ccc;
+          border-radius: 4px;
+          border-top: 20px solid #EB7D46;
+        }
+        table th:first-child{
+          border-radius:10px 0 0 0px;
+        }
+        table th:last-child{
+          border-radius:0 10px 0px 0;
+        }
+        tr {
+        border-bottom: 1pt solid black;
+        max-height: 50px;
+        margin: -10px;
+        }
+        tr:nth-child(even) 
+        {
+          background-color: #f2f2f2;
+        }
+        td {
+          margin-bottom: -20px;
+          margin-top: -20px;
+          max-height: 50px;
+          text-align: center;
+        }
+        thead {
+          /* text-shadow: -1.5px -1.5px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+          color: #EB7D46; */
+
+        }
+        table select {
+          border: none;
+          background-color: transparent;
+          outline: none;
+          margin: 0px;
+          width: 100%;
+          height: 100%;
+          font-size: 30px;
+          text-align: center;
+          font-family: "Rum Raisin", sans-serif;
+          text-shadow: -1.5px -1.5px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+          color: #EB7D46
+        }
+        table option {
+          font-family: "Rum Raisin", sans-serif;
+          text-shadow: -1.5px -1.5px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+          color: black  
+        }
+
+
+</style>
+
+
+  <center>
+    <div class="playerBox">
+    <h1 id="playerTitle">Zach Kline</h1>
+
+        <table class="chartEditable" id="chartEditableID" style="min-width: 400px; max-width: 1000px; margin-top: 30px; float: left">
+          <thead style="border-collapse:inherit">
+            <tr><th>Pitch</th>
+            <th>Speed</th>
+            <th>Type</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>50</td>
+              <td>       <select id="test" list="browsers">
+                <option>not selected</option>
+                <option value="Fast Ball">Fast Ball</option>
+                <option value="Curve Ball">Curve Ball</option>
+                <option value="Change Ups">Change Ups</option>
+                <option value="Screw Ball">Screw Ball</option>
+              </select></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>48</td>
+              <td>       <select id="test" list="browsers">
+                <option>not selected</option>
+                <option value="Fast Ball">Fast Ball</option>
+                <option value="Curve Ball">Curve Ball</option>
+                <option value="Change Ups">Change Ups</option>
+                <option value="Screw Ball">Screw Ball</option>
+              </select></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>40</td>
+              <td>       <select id="test" list="browsers">
+                <option>not selected</option>
+                <option value="Fast Ball">Fast Ball</option>
+                <option value="Curve Ball">Curve Ball</option>
+                <option value="Change Ups">Change Ups</option>
+                <option value="Screw Ball">Screw Ball</option>
+              </select></td>
+            </tr>           
+          </tbody>
+        </table>
+
+
+
+
+    </div>
+
+
+  </center>
+
+
+
+
+
+</div>
+
+
+
+<script>
+  function openPlayer(name) {
+    var i, tabcontent, tablinks;
+
+    if (name == 'newPlayer') {
+      console.log("working");
+      //main information
+      name = prompt("Player's Name:", "")
+      var content = document.getElementById("allPlayers")
+      
+      checkDupe = document.getElementById("tab").children;
+      for (var i = 0; i < checkDupe.length; i++) {
+        if (checkDupe[i].id.toString().replace("!~!", "") == name) {
+          alert("There is already a player with that name.\n\nPlease use another name")
+          return
+        }
+      }
+      if (name.includes("!~!")) {
+        alert("A username can not include '!~!'\n\nPlease use another name")
+        return
+      }
+      
+      var text = '<div id="' + name + '" class="tabcontent"><h3>Paris</h3><p>Paris is the capital of France.</p></div>'
+      content.innerHTML = content.innerHTML + text;
+      //tab
+      var content = document.getElementById("tab")
+      document.getElementById('newPlayerID').remove(); //removes current newPlayerTab
+
+      var text = '<button class="tablinks" id="' + name + '!~!" oncontextmenu="event.preventDefault()">' + name + '</button>' + '\n<button class="tablinks" id="newPlayerID" oncontextmenu="event.preventDefault()" onclick="openPlayer(\'newPlayer\') ">New Player</button>'
+      content.innerHTML = content.innerHTML + text
+
+
+      updatePlayerList()
+    } //end new player
+
+
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(name).style.display = "block";
+    document.getElementById(name + "!~!").className += " active";
+  }
+
+
+  function setCurrentPlayer(name) {
+    tabcontent = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].removeAttribute('style')
+    }
+    document.getElementById(name).style.backgroundColor = "#add8e6";
+  }
+
+
+  var buttonDecider = function(e) {
+    if (this.getAttribute("id").includes('!~!')) {
+      switch (e.button) {
+        case 0:
+          console.log('Left button clicked.');
+          openPlayer(this.getAttribute("id").replace("!~!", ""))
+          break;
+        case 1: // no use
+          console.log('middle button clicked.');
+          break;
+        case 2:
+        setCurrentPlayer(this.getAttribute("id"))
+          console.log('Right button clicked.');
+          break;
+      }
+    }
+  }
+
+  function updatePlayerList() {
+    var elements = document.getElementsByClassName("tablinks");
+
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].addEventListener('mouseup', buttonDecider, false);
+    }
+  }
+  updatePlayerList()
+
+
+  </script>
+
+
+  <!-- for spacing issues-->
+  <div style="height: 300px;">
+  </div>
+
+
+
+
+  </body>
+
+  
+
+
+
+  <script>
+  updateReload()
+    function updateReload() {
+      setTimeout(function () {
+        fetch("http://192.168.1.1:100/values")
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (Json) { //connected sucessfully
+          if (Json.xValues.split(',').length-1 + 1 != xValues.length) {
+            console.log("New Data...");
+
+            let splitx = Json.xValues.split(',');
+            let splity = Json.yValues.split(',');
+
+            xValues = splitx.map(i=>Number(i));
+            yValues = splity.map(i=>Number(i));
+
+            console.log(xValues)
+            console.log(yValues)
+
+            console.log(Json.logs)
+
+            updateLogs(Json.logs)
+            addData()
+            updateValues()
+          } else {
+            console.log("No New Data...")
+          }
+
+        })
+        .catch(function (error) {
+          console.log("Error: " + error);
+        });
+
+        updateReload()
+      }, 10000);
+    };
+  </script>
+
+
+
+</html>
+
