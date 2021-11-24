@@ -285,7 +285,7 @@
   console.log("Radar to Sound\nVer: 3")
 
   function credits() {
-    alert("Credits: KingsUnity\n\nProduct: Data Chord\nVer: 3.0\n\nThank you for choosing KingsUnity!")
+    alert("+=+ Data Chord +=+\nVersion: 3.2\n\nThank you for choosing KingsUnity!")
   }
 </script>
 
@@ -565,9 +565,10 @@
 <style>
 .tab {
   overflow: hidden;
-  border: 1px solid #ccc;
+  /*border: 1px solid #ccc; */
   background-color: #f1f1f1;
   max-width: 70%;
+  border-radius: 4px;
 }
 
 /* Style the buttons inside the tab */
@@ -611,7 +612,7 @@
     <button class="tablinks" id="player1!~!" oncontextmenu="event.preventDefault()">Player1</button>
     <button class="tablinks" id="player2!~!" oncontextmenu="event.preventDefault()">Player2</button>
     <button class="tablinks" id="player3!~!" oncontextmenu="event.preventDefault()">Player3</button>
-    <button class="tablinks" id="newPlayerID" oncontextmenu="event.preventDefault()" onclick="openPlayer('newPlayer') ">New Player</button>
+    <button class="tablinks" id="newPlayerID" oncontextmenu="event.preventDefault()" onclick="openPlayer('newPlayer') "><strong>New Player</strong></button>
   </div>
 </center>
 
@@ -634,7 +635,7 @@
 
 <style>
   .playerBox {
-    width: 70%;
+    width: 85%;
     min-height: 400px;
     background-color:#FAFAFA;
 
@@ -647,9 +648,10 @@
   }
 
   .chartEditable {
-          background-color: #FAFAFA;
+          background-color: transparent;
           text-shadow: -1.5px -1.5px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
           color: #EB7D46;
+          margin-bottom: 20px;
         }
         thead {
           background-color: #ccc;
@@ -669,7 +671,7 @@
         }
         tr:nth-child(even) 
         {
-          background-color: #f2f2f2;
+          background-color: #ccc;
         }
         td {
           margin-bottom: -20px;
@@ -700,59 +702,161 @@
           text-shadow: -1.5px -1.5px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
           color: black  
         }
+        table {
+          min-width: 400px; 
+          max-width: 1000px;
+        }
+
+
+    .pitchBox {
+      display: inline-block;
+      background-color: #f1f1f1;
+      width: 450px;
+
+      margin-top: 5px;
+      margin-left: 5px;
+      margin-right: 5px;
+
+      border-radius: 10px;
+
+
+    }
+
+    .pitchBox h2 {
+      margin-bottom: 0px;
+    }
+
+    .pitchBox tbody {
+      margin-bottom: 30px;
+    }
 
 
 </style>
 
+<script> //makes things drag and dropable
+
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+  ev.preventDefault();
+
+  data = document.getElementById(ev.dataTransfer.getData("text"))
+  target = document.getElementById(ev.target.parentNode.parentNode.id)
+
+  if (target == null || target == "") {
+    console.log("working")
+    target = ev.target.parentNode.parentNode //moves up 2
+    target = target.nextSibling.nextSibling //moves 2 objects down
+  }
+ 
+ 
+ 
+  if (target.id == data.parentNode.id) { //don't allow drop in same area
+    return
+  }
+
+  rawInput = data.innerText
+
+  inputInsert = rawInput.split('	');
+
+  newInput = formatedPlayerLine(inputInsert[0],inputInsert[1])
+
+  placed = false;
+  finalSend = "";
+  targetChildren = target.children;
+  for (var i = 0; i < targetChildren.length; i++) {
+    rawChild = targetChildren[i].innerText
+    child = rawChild.split('	');
+
+    if (parseInt(child[0]) >= parseInt(inputInsert[0]) && !placed) {
+      finalSend += formatedPlayerLine(inputInsert[0],inputInsert[1]);
+
+      placed = true
+    }
+    finalSend += formatedPlayerLine(child[0],child[1]);
+  }
+  if (!placed) { //item is the highest pitch
+    finalSend += formatedPlayerLine(inputInsert[0],inputInsert[1]);
+  }
+
+  target.innerHTML = finalSend;
+
+  data.remove()
+}
+
+const uid = function(){ // will create custom id
+  return Date.now().toString(36) + Math.random().toString(36).substr(2);
+}
+function formatedPlayerLine(pitchNum, pitchSpeed) {
+  return '<tr id=\'' + uid() + '\' draggable="true" ondragstart="drag(event)">\n<td>' + pitchNum + '</td>\n' + '<td>' + pitchSpeed + '</td>\n</tr>'
+}
+</script>
+
 
   <center>
-    <div class="playerBox">
-    <h1 id="playerTitle">Zach Kline</h1>
+    <div class="playerBox" id="playerPitchLocation">
+    <h1 id="playerTitle">Test Name</h1>
 
-        <table class="chartEditable" id="chartEditableID" style="min-width: 400px; max-width: 1000px; margin-top: 30px; float: left">
-          <thead style="border-collapse:inherit">
+      <div class="pitchBox" id="fastBall">
+        <h2>Fast Ball</h2>
+
+        <table class="chartEditable" id="chartEditableID" style="min-width: 400px; max-width: 1000px;">
+          <thead style="border-collapse:inherit" ondrop="drop(event)" ondragover="allowDrop(event)">
             <tr><th>Pitch</th>
             <th>Speed</th>
-            <th>Type</th>
           </tr></thead>
-          <tbody>
-            <tr>
+          <tbody id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <tr id="1231232"draggable="true" ondragstart="drag(event)">
               <td>1</td>
               <td>50</td>
-              <td>       <select id="test" list="browsers">
-                <option>not selected</option>
-                <option value="Fast Ball">Fast Ball</option>
-                <option value="Curve Ball">Curve Ball</option>
-                <option value="Change Ups">Change Ups</option>
-                <option value="Screw Ball">Screw Ball</option>
-              </select></td>
             </tr>
-            <tr>
+            <tr id="asdf"draggable="true" ondragstart="drag(event)">
               <td>2</td>
               <td>48</td>
-              <td>       <select id="test" list="browsers">
-                <option>not selected</option>
-                <option value="Fast Ball">Fast Ball</option>
-                <option value="Curve Ball">Curve Ball</option>
-                <option value="Change Ups">Change Ups</option>
-                <option value="Screw Ball">Screw Ball</option>
-              </select></td>
             </tr>
-            <tr>
+            <tr id="asdasdfgw"draggable="true" ondragstart="drag(event)">
               <td>3</td>
               <td>40</td>
-              <td>       <select id="test" list="browsers">
-                <option>not selected</option>
-                <option value="Fast Ball">Fast Ball</option>
-                <option value="Curve Ball">Curve Ball</option>
-                <option value="Change Ups">Change Ups</option>
-                <option value="Screw Ball">Screw Ball</option>
-              </select></td>
-            </tr>           
+            </tr>        
           </tbody>
         </table>
+      </div>
 
 
+
+
+
+
+      <div class="pitchBox" id="fastBall">
+        <h2>Fast Ball</h2>
+
+        <table class="chartEditable" id="chartEditableID" style="min-width: 400px; max-width: 1000px;">
+          <thead style="border-collapse:inherit" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <tr><th>Pitch</th>
+            <th>Speed</th>
+          </tr></thead>
+          <tbody  id="div2" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <tr id="12312"draggable="true" ondragstart="drag(event)">
+              <td>4</td>
+              <td>50</td>
+            </tr>
+            <tr id="asdbf"draggable="true" ondragstart="drag(event)">
+              <td>5</td>
+              <td>48</td>
+            </tr>
+            <tr id="123as12"draggable="true" ondragstart="drag(event)">
+              <td>6</td>
+              <td>40</td>
+            </tr>        
+          </tbody>
+        </table>
+      </div>
 
 
     </div>
@@ -776,6 +880,11 @@
       console.log("working");
       //main information
       name = prompt("Player's Name:", "")
+
+      if (name == "" || name == null) {
+        return
+      }
+
       var content = document.getElementById("allPlayers")
       
       checkDupe = document.getElementById("tab").children;
@@ -790,31 +899,107 @@
         return
       }
       
-      var text = '<div id="' + name + '" class="tabcontent"><h3>Paris</h3><p>Paris is the capital of France.</p></div>'
-      content.innerHTML = content.innerHTML + text;
-      //tab
-      var content = document.getElementById("tab")
+      //var text = '<div id="' + name + '" class="tabcontent"><h3>Paris</h3><p>Paris is the capital of France.</p></div>'
+      //content.innerHTML = content.innerHTML + text;
+      
+
+      document.getElementById("newPlayerToggle1").style.display = "block"
+      document.getElementById("blackout").style.display = "block"
+      document.getElementById("newPlayerName").innerText = name
+
+
+
+
+
+
+      
+      //tab MOVE TO ANOTHER LOCATION
+      /* var content = document.getElementById("tab")
       document.getElementById('newPlayerID').remove(); //removes current newPlayerTab
 
-      var text = '<button class="tablinks" id="' + name + '!~!" oncontextmenu="event.preventDefault()">' + name + '</button>' + '\n<button class="tablinks" id="newPlayerID" oncontextmenu="event.preventDefault()" onclick="openPlayer(\'newPlayer\') ">New Player</button>'
+      var text = '<button class="tablinks" id="' + name + '!~!" oncontextmenu="event.preventDefault()">' + name + '</button>' + '\n<button class="tablinks" id="newPlayerID" oncontextmenu="event.preventDefault()" onclick="openPlayer(\'newPlayer\') "><strong>New Player</strong></button>'
       content.innerHTML = content.innerHTML + text
+      updatePlayerList() */
 
 
-      updatePlayerList()
-    } //end new player
 
+    } else { //end new player
 
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(name).style.display = "block";
+      document.getElementById(name + "!~!").className += " active";
     }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-    document.getElementById(name).style.display = "block";
-    document.getElementById(name + "!~!").className += " active";
+
+  } 
+  
+
+
+
+
+
+  
+  function createNewPlayer() {
+    allPitches = document.getElementById("pitchOptions")
+
+    newPlayerSend = ''; // final html
+
+    checkActive = allPitches.children;
+      for (var i = 0; i < checkActive.length; i++) {
+        if (checkActive[i].classList.contains("active")) {
+          console.log(checkActive[i].innerText)
+
+          newPlayerSend += '<div class="pitchBox" id="' + checkActive[i].innerText + '">\n'
+          newPlayerSend += '  <h2>' + checkActive[i].innerText + '</h2>\n'
+          newPlayerSend += '  <table class="chartEditable" id="chartEditableID">\n'
+          newPlayerSend += '    <thead style="border-collapse:inherit" ondrop="drop(event)" ondragover="allowDrop(event)">\n'
+          newPlayerSend += '      <tr><th>Pitch</th>\n'
+          newPlayerSend += '      <th>Speed</th>\n'
+          newPlayerSend += '    </tr></thead>\n'
+          newPlayerSend += '    <tbody  id="div2" ondrop="drop(event)" ondragover="allowDrop(event)">\n'
+          newPlayerSend += '    </tbody>\n'
+          newPlayerSend += '  </table>\n'
+          newPlayerSend += '</div>\n'
+
+          console.log(newPlayerSend)
+        }
+      }
+
+      newPlayerSend += '<div class="pitchBox" id="unSelected">\n'
+      newPlayerSend += '  <h2>not Selected</h2>\n'
+      newPlayerSend += '  <table class="chartEditable" id="chartEditableID">\n'
+      newPlayerSend += '    <thead style="border-collapse:inherit" ondrop="drop(event)" ondragover="allowDrop(event)">\n'
+      newPlayerSend += '      <tr><th>Pitch</th>\n'
+      newPlayerSend += '      <th>Speed</th>\n'
+      newPlayerSend += '    </tr></thead>\n'
+      newPlayerSend += '    <tbody  id="div2" ondrop="drop(event)" ondragover="allowDrop(event)">\n'
+      newPlayerSend += '    </tbody>\n'
+      newPlayerSend += '  </table>\n'
+      newPlayerSend += '</div>\n'
+
+
+      document.getElementById("newPlayerToggle1").style.display = "none"
+      document.getElementById("blackout").style.display = "none"
+
+      document.getElementById("playerPitchLocation").innerHTML = newPlayerSend
+
+
+
   }
+
+
+
+
+
+
+
+
 
 
   function setCurrentPlayer(name) {
@@ -822,8 +1007,9 @@
     for (i = 0; i < tabcontent.length; i++) {
       tabcontent[i].removeAttribute('style')
     }
-    document.getElementById(name).style.backgroundColor = "#add8e6";
+    document.getElementById(name).style.backgroundColor = "#4CAF50";
   }
+
 
 
   var buttonDecider = function(e) {
@@ -860,13 +1046,217 @@
   <!-- for spacing issues-->
   <div style="height: 300px;">
   </div>
+<style>
+ 
+
+
+ #blackout {
+      width:100%;
+      height: 185%;
+      position: absolute;
+      left:0; top:0;
+      z-index:10
+    }
+
+
+.model {
+    width: 85%;
+    min-height: 99%;
+    line-height: 200px;
+    position: fixed;
+    top: 5px; 
+    left: 5%;
+
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    text-align: center;
+    z-index: 11;
+  }
+
+  .model h1 {
+    margin-top: -50px;
+    margin-bottom: -35px;
+  }
+
+  .newPlayerSetup {
+    overflow-y:auto;
+    position:relative;
+
+  }
+
+  .pitchOptions button {
+    height: 225px;
+    width: 175px;
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+
+    font-size: 20px;
+    font-weight:600;
+
+    border-radius: 4px;
+    border-width: 3px;
+    border-color: transparent;
+    border-style: solid;
+
+    transition: 0.3s;
+  }
+
+  .pitchOptions button:hover {
+    filter: brightness(90%);
+  } 
+
+  .pitchOptions button.active {
+    border-color: green ;
+  }
 
 
 
+  .itemconfiguration
+  {
+		max-height: 900px;
+		background-color:#FAFAFA;		
+    overflow-y:auto;
+  }
 
+  .itemconfiguration button.top-right { /* top right create player button */
+    display:inline-block; position: absolute; right: 100px; margin-top: 75px;
+  }
+
+  .itemconfiguration button.top-right {
+    width: 95px;
+    height: 55px;
+
+    border-radius: 15px;
+    border-width: 3px;
+    border-color: transparent;
+    border-style: solid;
+    
+
+    transition: 0.3s;
+
+    font-size: 20px;
+    font-weight:600;
+  }
+
+  .itemconfiguration button:hover {
+    filter: brightness(90%);
+  } 
+
+</style>
+
+
+  <div id="newPlayerToggle1" class="model itemconfiguration" style="display: block;"> <!-- display block is when active-->
+    <h1 id="newPlayerName" style="display:inline-block">Test Name</h1>
+    <button class="top-right">Create Player</button>
+
+    <div id="newPlayerSetup" class="newPlayerSetup" style="padding-bottom: 250px;">
+
+      <div id="pitchOptions" class="pitchOptions" style="font-size: 0px;"> <!-- font-size fixes margin issues -->
+        <button id="1" onclick="pitchActive(this.getAttribute('id'))" oncontextmenu="event.preventDefault()">Option 1</button>
+        <button id="2" onclick="pitchActive(this.getAttribute('id'))" oncontextmenu="event.preventDefault()">Option 2</button>
+        <button id="3" onclick="pitchActive(this.getAttribute('id'))" oncontextmenu="event.preventDefault()">Option 3</button>
+        <button id="4" onclick="pitchActive(this.getAttribute('id'))" oncontextmenu="event.preventDefault()">Option 4</button>
+        <button id="5" onclick="pitchActive(this.getAttribute('id'))" oncontextmenu="event.preventDefault()">Option 5</button>
+        <button id="6" onclick="pitchActive(this.getAttribute('id'))" oncontextmenu="event.preventDefault()">Option 6</button>
+        <button id="7" onclick="pitchActive(this.getAttribute('id'))" oncontextmenu="event.preventDefault()">Option 7</button>
+        <button id="8" onclick="pitchActive(this.getAttribute('id'))" oncontextmenu="event.preventDefault()">Option 8</button>
+        <button id="9" onclick="pitchActive(this.getAttribute('id'))" oncontextmenu="event.preventDefault()">Option 9</button>
+        <button id="10" onclick="pitchActive(this.getAttribute('id'))" oncontextmenu="event.preventDefault()">Option 10</button>
+        <button id="addNew" onclick="createNewPitchOption()" oncontextmenu="event.preventDefault()">Add New</button>
+      </div>
+
+      <button class="bottom">Create Player</button>
+
+      <br style="height: 100px;"> <!-- fixes scrolling issues -->
+    
+      <script>
+        function pitchActive(z) {
+          element = document.getElementById(z);
+           if (element.classList.contains("active")) {
+            element.classList.remove("active")
+           } else {
+            element.classList.add("active")
+           }
+        }
+
+
+        function createNewPitchOption() {
+          newBoxName = prompt("Name Of Pitch:", "")
+          console.log(newBoxName)
+          if (newBoxName == null || newBoxName == "") {
+            return;
+          }
+
+
+          checkDupe = document.getElementById("pitchOptions").children;
+          for (var i = 0; i < checkDupe.length; i++) {
+            if (checkDupe[i].textContent.toString() == newBoxName) {
+              alert("There is a pitch with that name.")
+              return
+            }
+          }
+            
+            content = document.getElementById("pitchOptions")
+
+            var text = '<button id="' + uid() + '"onclick="pitchActive(this.getAttribute(\'id\'))" style="margin-left:5px; margin-right:5px">' + newBoxName + '</button>'
+            
+            document.getElementById('addNew').remove(); //removes current newPlayerTab
+            content.innerHTML = content.innerHTML + text;
+            content.innerHTML = content.innerHTML + '<button id="addNew" onclick="createNewPitchOption()" oncontextmenu="event.preventDefault()" style="margin-left:5px; margin-right:5px">Add New</button>'
+            updatePlayerListPitchArea()
+        }
+
+        function removePitchOption(e) {
+          current = document.getElementById(e);
+
+          if (e == "addNew") {
+            return;
+          }
+          var r = confirm("Are you sure you want to remove " + current.textContent);
+
+          if (r) {
+            if (e != "addNew") {
+              document.getElementById(e).remove(); //removes the pitch
+            }
+          }
+        }
+
+
+        var buttonDeciderPitchArea = function(e) {
+            switch (e.button) {
+              case 0:
+                console.log('Left button clicked.');
+                break;
+              case 1: // no use
+                console.log('middle button clicked.');
+                break;
+              case 2: //will delete pitch
+                console.log('Right button clicked.');
+                removePitchOption(this.getAttribute("id"));
+                break;
+            }
+          }
+
+        function updatePlayerListPitchArea() {
+          elements = document.getElementById("pitchOptions").children
+
+          for (var i = 0; i < elements.length; i++) {
+            elements[i].addEventListener('mouseup', buttonDeciderPitchArea, false);
+          }
+        }
+        updatePlayerListPitchArea()
+
+      </script>
+
+    </div>
+
+
+  </div>
+
+  <div id="blackout" style="background:rgba(0,0,0,.5);; display: block;"></div>
   </body>
 
-  
 
 
 
@@ -909,8 +1299,4 @@
       }, 10000);
     };
   </script>
-
-
-
 </html>
-
